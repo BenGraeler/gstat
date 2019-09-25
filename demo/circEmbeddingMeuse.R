@@ -56,18 +56,18 @@ krigedSim <- krigeSTSimTB(newdata = stf_grid, modelList = separableModel, nsim =
 Sys.time() - sTime
 
 # plot one simulation along time
-stplot(krigedSim[,,"sim1"], main="unconditional siumulation")
+stplot(krigedSim[,,"sim1"], main="unconditional simulation")
 
 # plot one simulation along time as time series
-stplot(krigedSim[1:21,,"sim1"], mode="ts", main="unconditional siumulation")
-stplot(krigedSim[1:21,,"sim2"], mode="ts", main="unconditional siumulation")
-stplot(krigedSim[1:21,,"sim3"], mode="ts", main="unconditional siumulation")
-stplot(krigedSim[1:21,,"sim4"], mode="ts", main="unconditional siumulation")
-stplot(krigedSim[1:21,,"sim5"], mode="ts", main="unconditional siumulation")
-stplot(krigedSim[1:21,,"sim6"], mode="ts", main="unconditional siumulation")
+stplot(krigedSim[1:21,,"sim1"], mode="ts", main="unconditional simulation")
+stplot(krigedSim[1:21,,"sim2"], mode="ts", main="unconditional simulation")
+stplot(krigedSim[1:21,,"sim3"], mode="ts", main="unconditional simulation")
+stplot(krigedSim[1:21,,"sim4"], mode="ts", main="unconditional simulation")
+stplot(krigedSim[1:21,,"sim5"], mode="ts", main="unconditional simulation")
+stplot(krigedSim[1:21,,"sim6"], mode="ts", main="unconditional simulation")
 
 # plot the ten simulations of the first day
-spplot(krigedSim[,1], paste0("sim",1:10), as.table=TRUE, main="unconditional siumulation")
+spplot(krigedSim[,1], paste0("sim",1:10), as.table=TRUE, main="unconditional simulation")
 
 #################
 ## conditional ##
@@ -79,10 +79,10 @@ krigedSim <- krigeSTSimTB(formula= zinc ~ 1, data = STFDF(geometry(meuse), stf@t
 Sys.time() - sTime
 
 # plot one simulation along time
-stplot(krigedSim[,1:12], main="conditinal simulation")
+stplot(krigedSim[,1:12], main="conditional simulation")
 
 # plot one simulation along time as time series
-stplot(krigedSim[1:12,,"sim1"], mode="ts", main="conditinal simulation")
+stplot(krigedSim[1:12,,"sim1"], mode="ts", main="conditional simulation")
 
 # plot the ten simulations of the first day
-spplot(krigedSim[,1], paste0("sim",1:10), as.table=TRUE, main="conditinal simulation")
+spplot(krigedSim[,1], paste0("sim",1:10), as.table=TRUE, main="conditional simulation")
