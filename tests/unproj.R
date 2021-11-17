@@ -1,15 +1,13 @@
-if (require(rgdal) == FALSE)
-	q()
-
 # for validity of covariance functions on the sphere, see also:
 # DOI 10.1007/s11004-011-9344-7
 # http://mypage.iu.edu/~srobeson/Pubs/variogram_sphere_mathgeo_2011.pdf
 
-library(sp)
+suppressPackageStartupMessages(library(sp))
+suppressPackageStartupMessages(library(rgdal))
+suppressPackageStartupMessages(library(fields))
 data(meuse)
 coordinates(meuse) = ~x+y
 proj4string(meuse) = CRS("+init=epsg:28992")
-#meuse.ll = spTransform(meuse, CRS("+proj=longlat +datum=WGS84 +ellps=WGS84"))
 meuse.ll = spTransform(meuse, CRS("+proj=longlat +ellps=WGS84"))
 meuse.ll[1:10,]
 library(gstat)
@@ -21,16 +19,14 @@ cloud2 = variogram(log(zinc)~1, meuse.ll, cloud=T, cutoff=6)
 plot(cloud1$dist/1000, cloud2$dist, xlab="Amersfoort, km", ylab = "Long/lat")
 abline(0,1)
 
-if (require(fields)) {
   data(ozone2)
   oz = SpatialPointsDataFrame(ozone2$lon.lat, 
 		  data.frame(t(ozone2$y)), 
-		  proj4string=CRS("+proj=longlat +datum=WGS84 +ellps=WGS84"))
+		  proj4string=CRS("+proj=longlat +ellps=WGS84"))
   variogram(X870731~1,oz[!is.na(oz$X870731),])
-  utm16 = CRS("+proj=utm +zone=16 +ellps=WGS84")
+  utm16 = CRS("+proj=utm +zone=16")
   oz.utm = spTransform(oz, utm16)
   variogram(X870731~1,oz.utm[!is.na(oz$X870731),])
-}
 
 # Timothy Hilton, r-sig-geo, Sept 14, 2008:
 
@@ -47,7 +43,7 @@ structure(list(z = c(-1.95824831109744, -1.9158901643563, 4.22211761150161,
 
 coordinates(foo) <- ~lon+lat
 
-proj4string(foo) <- CRS('+proj=longlat +datum=WGS84 +ellps=WGS84')
+proj4string(foo) <- CRS('+proj=longlat +ellps=WGS84')
 
 vg.foo <- variogram(z~1, foo, cloud=TRUE, cutoff=1e10)
 

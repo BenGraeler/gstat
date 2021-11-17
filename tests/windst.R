@@ -1,6 +1,7 @@
-library(sp)
-library(spacetime)
-library(gstat)
+suppressPackageStartupMessages(library(sp))
+suppressPackageStartupMessages(library(spacetime))
+suppressPackageStartupMessages(library(gstat))
+suppressPackageStartupMessages(library(stars))
 
 data(wind)
 wind.loc$y = as.numeric(char2dms(as.character(wind.loc[["Latitude"]])))
@@ -38,7 +39,7 @@ m = spTransform(m, utm29)
 
 # setup grid
 grd = SpatialPixels(SpatialPoints(makegrid(m, n = 300)),
-	proj4string = proj4string(m))
+	proj4string = m@proj4string)
 # grd$t = rep(1, nrow(grd))
 #coordinates(grd) = ~x1+x2
 #gridded(grd)=TRUE
@@ -72,7 +73,6 @@ all.equal(wind.pr0, wind.ST)
 #}
 
 # stars:
-library(stars)
 df = data.frame(a = rep(NA, 324*10))
 s = STF(grd, tgrd)
 newd = addAttrToGeom(s, df)

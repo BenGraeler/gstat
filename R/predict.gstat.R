@@ -10,7 +10,7 @@ function (object, newdata, block = numeric(0), nsim = 0, indicators = FALSE,
 	if (!inherits(object, "gstat"))
 		stop("first argument should be of class gstat")
 	to_stars = FALSE
-	to_sf = if (inherits(newdata, c("sf", "stars"))) {
+	to_sf = if (inherits(newdata, c("sf", "sfc", "stars"))) {
 			to_stars = inherits(newdata, "stars")
 			newdata = as(newdata, "Spatial")
 			TRUE
@@ -38,7 +38,7 @@ function (object, newdata, block = numeric(0), nsim = 0, indicators = FALSE,
 		name = names(object$data)[i]
 		d = object$data[[i]]
 		if (!is.null(d$data)) {
-			if (!identical(proj4string(d$data), proj4string(newdata))) {
+			if (!identical(d$data@proj4string, newdata@proj4string)) {
 				print(proj4string(d$data))
 				print(proj4string(newdata))
 				stop(paste(name, ": data item in gstat object and newdata have different coordinate reference systems"))
@@ -215,12 +215,15 @@ function (object, newdata, block = numeric(0), nsim = 0, indicators = FALSE,
 				fullgrid(ret) = returnFullGrid
 			}
 		}
-		proj4string(ret) = CRS(proj4string(newdata))
+		slot(ret, "proj4string") = slot(newdata, "proj4string")
 		if (to_sf) {
 			ret = if (to_stars) {
 					if (!requireNamespace("stars", quietly = TRUE))
 						stop("stars required: install that first") # nocov
-					stars::st_as_stars(ret)
+					if (nsim) 
+						sim_to_dimension(stars::st_as_stars(ret), nsim)
+					else
+						stars::st_as_stars(ret)
 				} else {
 					if (gridded(ret) && fullgrid(ret))
 						fullgrid(ret) = FALSE

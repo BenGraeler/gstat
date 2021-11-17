@@ -1,20 +1,21 @@
+Sys.setenv(TZ = "UTC")
+
 # 0. using sp:
 
-library(sp)
+suppressPackageStartupMessages(library(sp))
 demo(meuse, ask = FALSE)
-library(gstat)
+suppressPackageStartupMessages(library(gstat))
 v = variogram(log(zinc)~1, meuse)
 (v.fit = fit.variogram(v, vgm(1, "Sph", 900, 1)))
 k_sp = krige(log(zinc)~1, meuse[-(1:5),], meuse[1:5,], v.fit)
 k_sp_grd = krige(log(zinc)~1, meuse, meuse.grid, v.fit)
 
 # 1. using sf:
-library(sf)
+suppressPackageStartupMessages(library(sf))
 demo(meuse_sf, ask = FALSE, echo = FALSE)
 # reloads meuse as data.frame, so
 demo(meuse, ask = FALSE)
 
-library(gstat)
 v = variogram(log(zinc)~1, meuse_sf)
 (v.fit = fit.variogram(v, vgm(1, "Sph", 900, 1)))
 k_sf = krige(log(zinc)~1, meuse_sf[-(1:5),], meuse_sf[1:5,], v.fit)
@@ -24,9 +25,9 @@ all.equal(k_sp, as(k_sf, "Spatial"), check.attributes = TRUE)
 
 # 2. using stars for grid:
 
-library(rgdal)
+suppressPackageStartupMessages(library(rgdal))
 writeGDAL(meuse.grid[,"dist"], "meuse.tif", "GTiff")
-library(stars)
+suppressPackageStartupMessages(library(stars))
 (st0 = setNames(read_stars("meuse.tif"), "dist"))
 st = st_as_stars(meuse.grid)
 all.equal(st_dimensions(st0), st_dimensions(st))
@@ -40,7 +41,7 @@ all.equal(sp, meuse.grid["dist"], check.attributes = FALSE)
 all.equal(sp, meuse.grid["dist"], check.attributes = TRUE, use.names = FALSE)
 
 # kriging:
-st_crs(st) = st_crs(meuse_sf) # GDAL roundtrip messes them up!
+st_crs(st) = st_crs(meuse_sf) = NA # GDAL roundtrip messes them up!
 k_st = if (Sys.getenv("USER") == "travis") {
 	try(krige(log(zinc)~1, meuse_sf, st, v.fit))
 } else {
@@ -55,9 +56,7 @@ st_as_stars(raster::stack(k_sp_grd)) # check
 
 all.equal(st_redimension(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE)
 
-library(stars)
-library(sp)
-library(spacetime)
+suppressPackageStartupMessages(library(spacetime))
 
 Sys.setenv(TZ="")
 tm = as.POSIXct("2019-02-25 15:37:24 CET")
@@ -78,4 +77,16 @@ stplot(s.stfdf, scales = list(draw = TRUE))
 
 (s2 = st_as_stars(s.stfdf))
 plot(s2, col = sf.colors(), axes = TRUE)
-all.equal(s, s2)
+all.equal(s, s2, check.attributes = FALSE)
+
+# multiple simulations:
+data(meuse, package = "sp")
+data(meuse.grid, package = "sp")
+coordinates(meuse.grid) <- ~x+y
+gridded(meuse.grid) <- TRUE
+meuse.grid = st_as_stars(meuse.grid)
+meuse_sf = st_as_sf(meuse, coords = c("x", "y"))
+g = gstat(NULL, "zinc", zinc~1, meuse_sf, model = vgm(1, "Exp", 300), nmax = 10)
+g = gstat(g, "lead", lead~1, meuse_sf, model = vgm(1, "Exp", 300), nmax = 10, fill.cross = TRUE)
+set.seed(123)
+(p = predict(g, meuse.grid, nsim = 5))

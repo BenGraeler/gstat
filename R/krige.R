@@ -47,24 +47,47 @@ krige.sf <- function(formula, locations, newdata, ..., nsim = 0) {
 		stop("sf required: install that first") # nocov
 	if (!requireNamespace("stars", quietly = TRUE))
 		stop("stars required: install that first") # nocov
+	crs = sf::st_crs(newdata)
 	if (!is.null(locations)) {
-		if (sf::st_crs(locations) == sf::st_crs(newdata))
-			sf::st_crs(newdata) = sf::st_crs(locations) # to avoid problems not handled by sp...
+		stopifnot(sf::st_crs(locations) == sf::st_crs(newdata))
+		crs = sf::st_crs(locations)
+		if (!isTRUE(sf::st_is_longlat(locations))) {
+			sf::st_crs(locations) = sf::NA_crs_
+			sf::st_crs(newdata) = sf::NA_crs_# to avoid problems not handled by sp...
+		}
 		locations = as(locations, "Spatial")
 	}
 	ret = krige(formula, locations, as(newdata, "Spatial"), ..., nsim = nsim)
 	if (gridded(ret)) {
 		st = stars::st_as_stars(ret)
-		if (nsim > 0) {
-			nms = names(stars::st_dimensions(st))
-			st = stars::st_set_dimensions(merge(st), names = c(nms, "sample"))
-			setNames(st, paste0("var", seq_along(st)))
-		} else
-			st
+		if (nsim > 0)
+			st = sim_to_dimension(st, nsim)
+		sf::st_set_crs(st, crs)
 	} else
-		sf::st_as_sf(ret)
+		sf::st_set_crs(sf::st_as_sf(ret), crs)
 }
 setMethod("krige", c("formula", "sf"), krige.sf)
+
+sim_to_dimension = function(st, nsim) {
+	nms = names(stars::st_dimensions(st))
+	if (length(st) > nsim) {
+		nvars = length(st) / nsim
+		l = vector("list", nvars)
+		vars = unique(sub("([^.]+)\\.[[:alnum:]]+$", "\\1", names(st)))
+		for (i in 1:nvars) {
+			range = seq((i-1) * nsim + 1, length.out = nsim)
+			m = setNames(st[range], paste0("sim", 1:nsim))
+			l[[i]] = setNames(stars::st_set_dimensions(merge(m), 
+				names = c(nms, "sample")), vars[i])
+		}
+		do.call(c, l)
+	} else {
+		if (nsim > 1)
+			setNames(stars::st_set_dimensions(merge(st), names = c(nms, "sample")), "var1")
+		else
+			st
+	}
+}
 
 setMethod(krige, signature("formula", "ST"),
 	function(formula, locations, newdata, model, ...) {
@@ -105,7 +128,7 @@ idw.sf <- function (formula, locations,
 		stop("stars required: install that first") # nocov
 
 	ret = krige(formula, locations, newdata, ..., set = list(idp = idp), model = NULL)
-	if (inherits(newdata, "sf"))
+	if (inherits(newdata, c("sf", "sfc")))
 		sf::st_as_sf(ret)
 	else if (inherits(newdata, "stars"))
 		stars::st_as_stars(ret)
@@ -119,7 +142,7 @@ STx2SpatialPoints = function(x, multiplyTimeWith = 1.0) {
 	t2 = as.numeric(x@endTime)
 	time = multiplyTimeWith * (t1 + t2) / 2
 	cc = cbind(coordinates(x), time)
-	SpatialPoints(cc, proj4string = CRS(proj4string(x))) 
+	SpatialPoints(cc, proj4string = x@sp@proj4string) 
 }
 
 STxDF2SpatialPointsDataFrame = function(x, multiplyTimeWith = 1.0) { 
@@ -131,7 +154,7 @@ SpatialPointsDataFrame2STxDF = function(x, class, tz = "",
 		origin = as.POSIXct("1970-01-01",tz=tz)) { 
 	cc = coordinates(x)
 	time = as.POSIXct(cc[,ncol(cc)], tz=tz, origin = origin)
-	sp = SpatialPoints(cc[,-ncol(cc)], proj4string = CRS(proj4string(x)))
+	sp = SpatialPoints(cc[,-ncol(cc)], proj4string = x@sp@proj4string)
 	st = as(STI(sp, time), class)
 	addAttrToGeom(STI(sp, time), x@data)
 }

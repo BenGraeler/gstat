@@ -2,6 +2,10 @@
 ## spatio-temporal kriging ##
 #############################
 
+debug_time_unit = function(tUnit) {
+    # message("Using the following time unit: ", tUnit)
+}
+
 STsolve = function(A, b, X) {
   # V = A$T %x% A$S -- a separable covariance; solve A x = b for x
   # kronecker: T %x% S vec(L) = vec(c0) <-->  S L T = c0
@@ -51,17 +55,21 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
                     bufferNmax=2, progress=TRUE) {
   stopifnot(inherits(modelList, "StVariogramModel") || is.function(modelList))
   return_stars = if (inherits(data, "stars")) {
-	if (!requireNamespace("sf", quietly = TRUE))
-		stop("sf required: install that first") # nocov
-	if (!requireNamespace("stars", quietly = TRUE))
-		stop("stars required: install that first") # nocov
-  	data = as(data, "STFDF")
-	newdata = as(newdata, "STFDF")
-	TRUE
-  } else
+    if (!requireNamespace("sf", quietly = TRUE))
+      stop("sf required: install that first") # nocov
+    if (!requireNamespace("stars", quietly = TRUE))
+      stop("stars required: install that first") # nocov
+    if (sf::st_crs(data) != sf::st_crs(newdata))
+      warning("CRS for data and newdata are not identical; assign CRS or use st_transform to correct")
+    data = as(data, "STFDF")
+    newdata = as(newdata, "STFDF")
+    TRUE
+  } else {
+    if (!identical(data@sp@proj4string, newdata@sp@proj4string))
+  	  message("please verify that the CRSs of data and newdata are identical, or transform them first to make them identical")
     FALSE
+  }
   stopifnot(inherits(data, c("STF", "STS", "STI")) & inherits(newdata, c("STF", "STS", "STI"))) 
-  stopifnot(identical(proj4string(data@sp), proj4string(newdata@sp)))
   stopifnot(class(data@time) == class(newdata@time))
   stopifnot(nmax > 0)
   
@@ -81,19 +89,20 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
     attr(modelList, "temporal unit") <- tUnit
   } else {
     tUnit <- tUnitModel
-    message("Using the following time unit: ", tUnit)
+    debug_time_unit(tUnit)
   }
   
   if(nmax < Inf) { # local neighbourhood ST kriging:
-    ret = krigeST.local(formula = formula, data = data, 
+    ret = krigeST.local( formula = formula, data = data, 
                          newdata = newdata, modelList = modelList, beta=beta, # y=y, # for later use
                          nmax = nmax, stAni = stAni, 
                          computeVar = computeVar, fullCovariance = fullCovariance, 
                          bufferNmax = bufferNmax, progress = progress)
-    if (return_stars) # xxx
-		return(stars::st_as_stars(as(ret, "STFDF")))
-	else
-		return(ret)
+
+    if (return_stars)
+      return(stars::st_as_stars(as(ret, "STFDF")))
+    else
+      return(ret)
   }
   
   df <- krigeST.df(formula = formula, data = data, newdata = newdata, 
@@ -105,11 +114,11 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
   
   # wrapping the predictions in ST*DF again
   if (!fullCovariance) {
-	ret = addAttrToGeom(geometry(newdata), df)
+    ret = addAttrToGeom(geometry(newdata), df)
     if (return_stars)
-	  stars::st_as_stars(as(ret, "STFDF"))
-	else
-	  ret
+      stars::st_as_stars(as(ret, "STFDF"))
+    else
+      ret
   } else
     df
 }
@@ -176,17 +185,20 @@ krigeST.df <- function(formula, data, newdata, modelList, beta, y, ...,
         corMat <- cov2cor(covfn.ST(newdata, newdata, modelList))
         var <- corMat*matrix(sqrt(var) %x% sqrt(var), nrow(corMat), ncol(corMat))
         # var = c0 - t(v0) %*% skwts + t(Q) %*% CHsolve(t(X) %*% ViX, Q)
-        return(list(pred=pred, var=var))
+        # return(list(pred=pred, var=var))
       }
     }
   }
   
   pred = x0 %*% beta + t(skwts) %*% (y - X %*% beta)
   
-  if(computeVar)
-    return(data.frame(var1.pred = pred, var1.var = var))
-  else
-    return(data.frame(var1.pred = pred))
+  if(computeVar) {
+    if (fullCovariance)
+      list(pred=pred, var=var)
+    else
+      data.frame(var1.pred = pred, var1.var = var)
+  } else
+    data.frame(var1.pred = pred)
 }
 
 # local spatio-temporal kriging

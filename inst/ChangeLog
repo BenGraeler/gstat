@@ -1,3 +1,495 @@
+2021-09-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/gstat.R, inst/ChangeLog, src/lm.c, src/mtrx.c,
+	tests/line.Rout.save, tests/stars.Rout.save, tests/unproj.Rout.save: 
+	add, and use, USE_FC_LEN_T
+
+2021-07-13  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog: update changelog
+
+2021-05-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, inst/ChangeLog, man/coalash.Rd, tests/stars.R,
+	tests/stars.Rout.save: update
+
+2021-05-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/external/no2.csv: add no2.csv
+
+2021-05-19  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/stVariogramModels.R, R/variogramST.R: fixes for R 4.1, related
+	to difftime
+
+2021-03-18  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, tests/unproj.R, tests/unproj.Rout.save: CRAN
+	submission
+
+2021-03-06  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/variogramST.R: try to suppress future.apply warning
+
+2021-03-06  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krigeST.R: more CRS check cleanup
+
+2021-02-17  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/circEmbed.R, R/gstat.R, R/krige.R, R/krige0.R, R/krigeST.R,
+	R/predict.gstat.R, R/variogram.gstat.R, inst/ChangeLog,
+	man/predict.gstat.Rd, tests/stars.Rout.save, tests/windst.R,
+	tests/windst.Rout.save: crs fixes remove uses of proj4string(x), using x@proj4string instead so that
+	the wkt field does not get lost.
+
+2021-02-17  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/gstat.cv.R: fixes #84 in a slightly different way.
+
+2021-01-21  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/variogramST.R: addresses #79
+
+2021-01-15  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #83 from rsbivand/master convert CRS(proj4string(.)) to slot(. "projstring") and same for
+	projâ€¦
+
+2021-01-13  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit c44ce6ba7d99d58d6ed22ae99ff336f603de4b11 Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Wed Jan 13 20:22:37
+	2021 +0100
+
+2021-01-13  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit d3a3dddb05ad55e4e19d34f8e2fbd6fd2b3ea4ae Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Wed Jan 13 07:44:40
+	2021 +0100
+
+2021-01-12  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* man/wind.Rd: fix wind.Rd (skip map)
+
+2021-01-12  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit 1354a0e1570c251f911e1336b221db5514681767 Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Tue Jan 12 19:03:52
+	2021 +0100
+
+2021-01-12  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* cleanup, docs/LICENSE-text.html, docs/authors.html,
+	docs/index.html, docs/news/index.html, docs/pkgdown.css,
+	docs/pkgdown.js, docs/pkgdown.yml, docs/reference/DE_RB_2005.html,
+	docs/reference/coalash.html, docs/reference/estiStAni.html,
+	docs/reference/extractPar.html,
+	docs/reference/fit.StVariogram.html, docs/reference/fit.lmc.html,
+	docs/reference/fit.variogram.gls.html,
+	docs/reference/fit.variogram.html,
+	docs/reference/fit.variogram.reml.html, docs/reference/fulmar.html,
+	docs/reference/get.contr.html, docs/reference/gstat-internal.html,
+	docs/reference/gstat.html, docs/reference/hscat.html,
+	docs/reference/image.html, docs/reference/index.html,
+	docs/reference/jura.html, docs/reference/krige.cv.html,
+	docs/reference/krige.html, docs/reference/krigeST.html,
+	docs/reference/krigeSTSimTB.html, docs/reference/krigeSimCE.html,
+	docs/reference/krigeTg.html, docs/reference/map.to.lev.html,
+	docs/reference/meuse.all.html, docs/reference/meuse.alt.html,
+	docs/reference/ncp.grid.html, docs/reference/ossfim.html,
+	docs/reference/oxford.html, docs/reference/pcb.html,
+	docs/reference/plot.gstatVariogram.html,
+	docs/reference/plot.pointPairs.html,
+	docs/reference/plot.variogramCloud.html,
+	docs/reference/predict.gstat.html, docs/reference/progress.html,
+	docs/reference/show.vgms.html, docs/reference/sic2004.html,
+	docs/reference/sic97.html, docs/reference/spplot.vcov.html,
+	docs/reference/tull.html, docs/reference/variogram.html,
+	docs/reference/variogramLine.html, docs/reference/variogramST.html,
+	docs/reference/variogramSurface.html, docs/reference/vgm.html,
+	docs/reference/vgm.panel.html, docs/reference/vgmArea.html,
+	docs/reference/vgmAreaST.html, docs/reference/vgmST.html,
+	docs/reference/vv.html, docs/reference/walker.html,
+	docs/reference/wind.html, man/tull.Rd, man/wind.Rd: update
+
+2021-01-12  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit 61c8869e3d39d905323a0d265835414c6dc0801f Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Tue Jan 12 14:59:01
+	2021 +0100
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* man/wind.Rd: remove add parameter
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: tabs
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: gs+qpdf
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: tlgmr
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: caption
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: tlmgr
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: tlmgr
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: spaces
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: typo
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: tlmgr 2
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .Rbuildignore, .github/workflows/tic.yml: tlmgr
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* tic.R: add tic.R
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/R-CMD-check.yaml, .github/workflows/tic.yml: use
+	tic
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit be4b56da6438f40bc481f2a645b34962d712832e Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Mon Jan 11 18:58:57
+	2021 +0100
+
+2020-12-15  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md, inst/ChangeLog, src/gls.c, src/s.c: fix #80
+
+2020-12-14  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* src/gls.c: prevent segfault in #80
+
+2020-07-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, NEWS.md, inst/ChangeLog: bump version
+
+2020-05-18  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, inst/ChangeLog: bump version
+
+2020-04-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/variogramST.R, inst/ChangeLog, tests/stars.Rout.save: fix
+	problem introduced by #62 fixes #65
+
+2020-04-04  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, tests/stars.R: travis
+
+2020-04-04  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, tests/stars.R: version bump; robustify test
+
+2020-02-20  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md, inst/ChangeLog: news
+
+2020-02-20  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #63 from r-spatial/sigmafelix-master Sigmafelix master
+
+2020-02-19  Insang Song <sigmafelix@hotmail.com>
+
+	* DESCRIPTION, NAMESPACE, R/variogramST.R: CI test
+
+2020-02-19  Insang Song <sigmafelix@hotmail.com>
+
+	* NAMESPACE: Update NAMESPACE
+
+2020-02-19  Insang Song <sigmafelix@hotmail.com>
+
+	* R/variogramST.R: Update variogramST.R
+
+2020-02-10  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md: news entry
+
+2020-02-09  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md, R/krige.R: fixes #58
+
+2020-01-19  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krigeST.R, inst/ChangeLog, tests/stars.Rout.save: CRAN
+	submission 2.0.4
+
+2020-01-14  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, src/mtrx.c, tests/merge.Rout.save: silence tests
+
+2020-01-14  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, src/mtrx.c, tests/allier.R,
+	tests/allier.Rout.save, tests/merge.Rout.save, tests/stars.R,
+	tests/stars.Rout.save, tests/unproj.R, tests/unproj.Rout.save,
+	tests/windst.R, tests/windst.Rout.save: clean up tests
+
+2020-01-10  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, tests/stars.R: tests
+
+2019-12-21  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, tests/cv3d.R, tests/cv3d.Rout.save: limit cv3d
+	tests precision
+
+2019-11-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* man/krigeST.Rd, man/variogram.Rd, man/vv.Rd: fighting PROJ6 mess;
+	#56
+
+2019-11-21  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, man/wind.Rd: remove dev.off()s from wind docs
+
+2019-10-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml: travis
+
+2019-10-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, inst/ChangeLog: version bump
+
+2019-10-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md, inst/ChangeLog, man/fulmar.Rd, man/jura.Rd, man/pcb.Rd: 
+	update
+
+2019-10-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krigeST.R: should address #53
+
+2019-07-05  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, NEWS.md, R/krige.R, R/krigeTg.R, R/predict.gstat.R,
+	inst/ChangeLog: fix #51
+
+2019-05-31  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krigeST.R, R/stVariogramModels.R, R/turningLayers.R: make time
+	unit test(s) (more) quiet.
+
+2019-05-31  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* tests/stars.Rout.save: silence coordinate naming change
+
+2019-05-31  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krige.R: fix #46
+
+2019-05-17  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/variogramST.R: fixes bug in plot.StVariogram
+
+2019-05-17  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krigeST.R: indentation
+
+2019-05-16  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog: tidy
+
+2019-05-16  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* tests/stars.Rout.save: tidy test output
+
+2019-05-16  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, tests/stars.R: fix seed
+
+2019-05-16  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/variogramST.R, inst/ChangeLog, tests/cv.Rout.save,
+	tests/na.action.Rout.save, tests/sim.Rout.save,
+	tests/stars.Rout.save, tests/unproj.Rout.save,
+	vignettes/gstat.Rout.save, vignettes/prs.Rout.save: more sample() R
+	3.6.0 fall out
+
+2019-05-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, tests/stars.R, tests/stars.Rout.save: fix test on
+	older proj/gdal platforms
+
+2019-05-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krige.R, R/predict.gstat.R, inst/ChangeLog, tests/stars.R,
+	tests/stars.Rout.save: handle multiple variables simulations for
+	sf/stars fix #32, fix #39
+
+2019-05-07  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krige.R, inst/ChangeLog: fix simulation naming for single
+	variable; #39
+
+2019-04-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION: version bump
+
+2019-04-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md, docs/news/index.html: update NEWS
+
+2019-04-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md, inst/NEWS.Rd: reorganize NEWS
+
+2019-04-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* docs/index.html, docs/news/index.html, inst/ChangeLog: update docs
+
+2019-04-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .Rbuildignore, README.md: add appveyor
+
+2019-04-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* appveyor.yml, inst/ChangeLog: add appveyor
+
+2019-04-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md, docs/LICENSE-text.html, docs/authors.html,
+	docs/index.html, docs/news/index.html,
+	docs/reference/DE_RB_2005.html, docs/reference/coalash.html,
+	docs/reference/estiStAni.html, docs/reference/extractPar.html,
+	docs/reference/fit.StVariogram.html, docs/reference/fit.lmc.html,
+	docs/reference/fit.variogram.gls.html,
+	docs/reference/fit.variogram.html,
+	docs/reference/fit.variogram.reml.html, docs/reference/fulmar.html,
+	docs/reference/get.contr.html, docs/reference/gstat-internal.html,
+	docs/reference/gstat.html, docs/reference/hscat.html,
+	docs/reference/image.html, docs/reference/index.html,
+	docs/reference/jura.html, docs/reference/krige.cv.html,
+	docs/reference/krige.html, docs/reference/krigeST.html,
+	docs/reference/krigeSTSimTB.html, docs/reference/krigeSimCE.html,
+	docs/reference/krigeTg.html, docs/reference/map.to.lev.html,
+	docs/reference/meuse.all.html, docs/reference/meuse.alt.html,
+	docs/reference/ncp.grid.html, docs/reference/ossfim.html,
+	docs/reference/oxford.html, docs/reference/pcb.html,
+	docs/reference/plot.gstatVariogram.html,
+	docs/reference/plot.pointPairs.html,
+	docs/reference/plot.variogramCloud.html,
+	docs/reference/predict.gstat.html, docs/reference/progress.html,
+	docs/reference/show.vgms.html, docs/reference/sic2004.html,
+	docs/reference/sic97.html, docs/reference/spplot.vcov.html,
+	docs/reference/tull.html, docs/reference/variogram.html,
+	docs/reference/variogramLine.html, docs/reference/variogramST.html,
+	docs/reference/variogramSurface.html, docs/reference/vgm.html,
+	docs/reference/vgm.panel.html, docs/reference/vgmArea.html,
+	docs/reference/vgmAreaST.html, docs/reference/vgmST.html,
+	docs/reference/vv.html, docs/reference/walker.html,
+	docs/reference/wind.html: fix, tidy
+
+2019-04-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* README.md: fix links
+
+2019-04-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md, inst/ChangeLog, man/wind.Rd, tests/windst.Rout.save: add
+	NEWS; tidy
+
+2019-04-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit 198ac18fcd889fd334cca74485fa2d1b924e6c30 Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Thu Apr 25 21:36:14
+	2019 +0200
+
+2019-04-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krige.R: fix, hopefully, build error on OSX
+
+2019-04-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* docs/LICENSE-text.html, docs/authors.html, docs/docsearch.css,
+	docs/docsearch.js, docs/index.html, docs/link.svg,
+	docs/pkgdown.css, docs/pkgdown.js, docs/pkgdown.yml,
+	docs/reference/DE_RB_2005.html, docs/reference/JuraPred.kml,
+	docs/reference/coalash.html, docs/reference/estiStAni.html,
+	docs/reference/extractPar.html,
+	docs/reference/fit.StVariogram.html, docs/reference/fit.lmc.html,
+	docs/reference/fit.variogram.gls.html,
+	docs/reference/fit.variogram.html,
+	docs/reference/fit.variogram.reml.html, docs/reference/fulmar.html,
+	docs/reference/get.contr.html, docs/reference/gstat-internal.html,
+	docs/reference/gstat.html, docs/reference/hscat.html,
+	docs/reference/image.html, docs/reference/index.html,
+	docs/reference/jura.html, docs/reference/krige.cv.html,
+	docs/reference/krige.html, docs/reference/krigeST.html,
+	docs/reference/krigeSTSimTB.html, docs/reference/krigeSimCE.html,
+	docs/reference/krigeTg.html, docs/reference/map.to.lev.html,
+	docs/reference/meuse.all.html, docs/reference/meuse.alt.html,
+	docs/reference/ncp.grid.html, docs/reference/ossfim.html,
+	docs/reference/oxford.html, docs/reference/pcb.html,
+	docs/reference/plot.gstatVariogram.html,
+	docs/reference/plot.pointPairs.html,
+	docs/reference/plot.variogramCloud.html,
+	docs/reference/predict.gstat.html, docs/reference/progress.html,
+	docs/reference/show.vgms.html, docs/reference/sic2004.html,
+	docs/reference/sic97.html, docs/reference/spplot.vcov.html,
+	docs/reference/tull.html, docs/reference/variogram.html,
+	docs/reference/variogramLine.html, docs/reference/variogramST.html,
+	docs/reference/variogramSurface.html, docs/reference/vgm.html,
+	docs/reference/vgm.panel.html, docs/reference/vgmArea.html,
+	docs/reference/vgmAreaST.html, docs/reference/vgmST.html,
+	docs/reference/vv.html, docs/reference/walker.html,
+	docs/reference/wind.html: add pkgdown
+
+2019-03-15  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #44 from BenGraeler/fix-issue_42 Fix issue 42
+
+2019-03-15  Benedikt Gräler <b.graeler@52north.org>
+
+	* R/krigeST.R: typos
+
+2019-03-15  Benedikt Gräler <b.graeler@52north.org>
+
+	* R/krigeST.R: https://github.com/edzer/gstat/issues/42 Check for
+	temporal unit in krigeST opposed to covariance function and assign
+	the temporal unit found in krigeST to the spatio-temporal variogram
+	for consistency in case none has been provided by the model.
+
+2019-02-27  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml: travis
+
+2019-02-27  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml, README.md: add ubuntugis-unstable
+
+2019-02-27  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml, DESCRIPTION, inst/ChangeLog, tests/stars.R,
+	tests/stars.Rout.save, tests/unproj.Rout.save,
+	tests/windst.Rout.save: 2.0.0 release candidate
+
 2019-01-28  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* NAMESPACE, R/vgm.R, man/vgm.Rd: add plot.variogramModel; #40
@@ -111,6 +603,10 @@
 	* : commit e6b4d453fd7d51efce89bc5d8b1d3dfbcc62e1c3 Author: Edzer
 	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Thu Nov 8 22:07:36
 	2018 +0100
+
+2018-11-07  Benedikt Gräler <b.graeler@52north.org>
+
+	* R/{circEmbed.r => circEmbed.R}: follow file ending convention ".R"
 
 2018-11-06  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
