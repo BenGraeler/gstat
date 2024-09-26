@@ -20,7 +20,7 @@ krigeSTSimTB(formula, data, newdata, modelList, nsim, progress = TRUE,
   \item{tGrid}{optional explicit temporal griding that shall be used}
   \item{sGrid}{optional explicit spatial griding that shall be used}
   \item{ceExt}{expansion in the circulant embedding, defaults to 2}
-  \item{nmax}{number of nearest neighbours that shall e used, defaults to 'Inf' meaning all available points are used}
+  \item{nmax}{number of nearest neighbours that shall be used, defaults to 'Inf' meaning all available points are used}
 }
 \value{a spatio-temporal data frame with \code{nSim} simulations}
 \references{
